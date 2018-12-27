@@ -2,14 +2,15 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_WALLETVIEW_H
-#define BITCOIN_QT_WALLETVIEW_H
+#ifndef NAVCOIN_QT_WALLETVIEW_H
+#define NAVCOIN_QT_WALLETVIEW_H
 
 #include "amount.h"
 
 #include <QStackedWidget>
+#include <QPushButton>
 
-class BitcoinGUI;
+class NavCoinGUI;
 class ClientModel;
 class OverviewPage;
 class PlatformStyle;
@@ -39,13 +40,13 @@ public:
     explicit WalletView(const PlatformStyle *platformStyle, QWidget *parent);
     ~WalletView();
 
-    void setBitcoinGUI(BitcoinGUI *gui);
+    void setNavCoinGUI(NavCoinGUI *gui);
     /** Set the client model.
         The client model represents the part of the core that communicates with the P2P network, and is wallet-agnostic.
     */
     void setClientModel(ClientModel *clientModel);
     /** Set the wallet model.
-        The wallet model represents a bitcoin wallet, and offers access to the list of transactions, address book and sending
+        The wallet model represents a navcoin wallet, and offers access to the list of transactions, address book and sending
         functionality.
     */
     void setWalletModel(WalletModel *walletModel);
@@ -98,6 +99,8 @@ public Q_SLOTS:
     void changePassphrase();
     /** Ask for passphrase to unlock wallet temporarily */
     void unlockWallet();
+    void unlockWalletStaking();
+    void lockWallet();
 
     /** Show used sending addresses */
     void usedSendingAddresses();
@@ -110,6 +113,20 @@ public Q_SLOTS:
     /** Show progress dialog e.g. for rescan */
     void showProgress(const QString &title, int nProgress);
 
+    void setStatusTitleBlocks(QString text);
+
+    void setStatusTitleConnections(QString text);
+
+    void setStatusTitle(QString text);
+
+    void showStatusTitleConnections();
+    void hideStatusTitleConnections();
+    void showStatusTitleBlocks();
+    void hideStatusTitleBlocks();
+
+    void showLockStaking(bool status);
+    void setStakingStatus(QString text);
+
 Q_SIGNALS:
     /** Signal that we want to show the main window */
     void showNormalIfMinimized();
@@ -119,6 +136,8 @@ Q_SIGNALS:
     void encryptionStatusChanged(int status);
     /** Notify that a new transaction appeared */
     void incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label);
+
+    friend NavCoinGUI;
 };
 
-#endif // BITCOIN_QT_WALLETVIEW_H
+#endif // NAVCOIN_QT_WALLETVIEW_H

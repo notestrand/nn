@@ -2,12 +2,13 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_OVERVIEWPAGE_H
-#define BITCOIN_QT_OVERVIEWPAGE_H
+#ifndef NAVCOIN_QT_OVERVIEWPAGE_H
+#define NAVCOIN_QT_OVERVIEWPAGE_H
 
 #include "amount.h"
 
 #include <QWidget>
+#include <QPushButton>
 
 class ClientModel;
 class TransactionFilterProxy;
@@ -40,6 +41,20 @@ public Q_SLOTS:
     void setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                     const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
 
+    void setStatusTitleBlocks(QString text);
+
+    void setStatusTitleConnections(QString text);
+
+    void setStatusTitle(QString text);
+
+    void showStatusTitleConnections();
+    void hideStatusTitleConnections();
+    void showStatusTitleBlocks();
+    void hideStatusTitleBlocks();
+
+    void showLockStaking(bool status);
+    void setStakingStatus(QString text);
+
 Q_SIGNALS:
     void transactionClicked(const QModelIndex &index);
 
@@ -62,6 +77,9 @@ private Q_SLOTS:
     void handleTransactionClicked(const QModelIndex &index);
     void updateAlerts(const QString &warnings);
     void updateWatchOnlyLabels(bool showWatchOnly);
+    void unlockWalletStaking();
+    void toggleStakingButton();
+
 };
 
-#endif // BITCOIN_QT_OVERVIEWPAGE_H
+#endif // NAVCOIN_QT_OVERVIEWPAGE_H

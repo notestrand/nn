@@ -2,13 +2,16 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_WALLETFRAME_H
-#define BITCOIN_QT_WALLETFRAME_H
+#ifndef NAVCOIN_QT_WALLETFRAME_H
+#define NAVCOIN_QT_WALLETFRAME_H
 
 #include <QFrame>
 #include <QMap>
+#include <QHBoxLayout>
+#include <QPushButton>
 
-class BitcoinGUI;
+
+class NavCoinGUI;
 class ClientModel;
 class PlatformStyle;
 class SendCoinsRecipient;
@@ -24,7 +27,7 @@ class WalletFrame : public QFrame
     Q_OBJECT
 
 public:
-    explicit WalletFrame(const PlatformStyle *platformStyle, BitcoinGUI *_gui = 0);
+    explicit WalletFrame(const PlatformStyle *platformStyle, NavCoinGUI *_gui = 0);
     ~WalletFrame();
 
     void setClientModel(ClientModel *clientModel);
@@ -37,10 +40,13 @@ public:
     bool handlePaymentRequest(const SendCoinsRecipient& recipient);
 
     void showOutOfSyncWarning(bool fShow);
+    WalletView *currentWalletView();
+
+    QWidget *topMenu;
 
 private:
     QStackedWidget *walletStack;
-    BitcoinGUI *gui;
+    NavCoinGUI *gui;
     ClientModel *clientModel;
     QMap<QString, WalletView*> mapWalletViews;
 
@@ -48,9 +54,9 @@ private:
 
     const PlatformStyle *platformStyle;
 
-    WalletView *currentWalletView();
 
 public Q_SLOTS:
+
     /** Switch to overview (home) page */
     void gotoOverviewPage();
     /** Switch to history (transactions) page */
@@ -73,11 +79,29 @@ public Q_SLOTS:
     void changePassphrase();
     /** Ask for passphrase to unlock wallet temporarily */
     void unlockWallet();
+    void unlockWalletStaking();
+    void lockWallet();
+
+    void setStatusTitleBlocks(QString text);
+
+    void setStatusTitleConnections(QString text);
+
+    void setStatusTitle(QString text);
+
+    void showStatusTitleConnections();
+    void hideStatusTitleConnections();
+    void showStatusTitleBlocks();
+    void hideStatusTitleBlocks();
+
+    void showLockStaking(bool status);
+
+    void setStakingStatus(QString text);
 
     /** Show used sending addresses */
     void usedSendingAddresses();
     /** Show used receiving addresses */
     void usedReceivingAddresses();
+
 };
 
-#endif // BITCOIN_QT_WALLETFRAME_H
+#endif // NAVCOIN_QT_WALLETFRAME_H
